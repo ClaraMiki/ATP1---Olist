@@ -1,15 +1,19 @@
 import product
 
+def cls():
+    print("\n" * 100)
+
 choice_option = 1
 products = []
 
 while choice_option != 5:
-    print("\n\n########### Menu ###########")
-    print("1 - Listar os produtos")
-    print("2 - Cadastrar um novo produto")
-    print("3 - Alterar um produto")
-    print("4 - Excluir um produto")
-    print("5 - Sair\n")
+    print("\n\n################# Menu #################")
+    print("#                                      #")
+    print("#     1 - Listar os produtos           #")
+    print("#     2 - Cadastrar um novo produto    #")
+    print("#     3 - Alterar um produto           #")
+    print("#     4 - Excluir um produto           #")
+    print("#     5 - Sair                         #\n")
     choice_option = int(input("Digite a operação que deseja fazer: "))
 
     if choice_option not in [1,2,3,4,5]:
@@ -20,30 +24,35 @@ while choice_option != 5:
         if len(products) == 0:
            print("\n\nNão há produtos cadastrados ainda!")
         else:
-            print("\n\n########### SUB MENU LISTAGEM ###########\n")
-            print("1 - Sem filtro")
-            print("2 - Com filtro")
+            cls()
+            print("\n\n########### SUB MENU LISTAGEM ###########")
+            print("#                                       #")
+            print("#            1 - Sem filtro             #")
+            print("#            2 - Com filtro             #\n")
             choice_option = int(input("Digite a sua escolha: "))
 
             if choice_option == 1:
-                print("\n\n########### LISTAGEM DE PRODUTOS ###########\n")
+                print("\n\n########## LISTAGEM DE PRODUTOS #########\n")
                 for product in products:
                     product.show_all()
-                    print("------------------------------------\n")
+                    print("-----------------------------------------\n")
             else:
-                print("\n\n########### SUB MENU FILTROS ###########\n")
-                print("0 - Posição")
-                print("1 - Nome")
-                print("2 - Preço")
-                print("3 - Quantidade")
-                print("4 - Descrição")
+                print("\n\n########### SUB MENU FILTROS ###########")
+                print("#                                      #")
+                print("#            0 - Posição               #")
+                print("#            1 - Nome                  #")
+                print("#            2 - Preço                 #")
+                print("#            3 - Quantidade            #")
+                print("#            4 - Descrição             #\n")
                 choice_filter = int(input("Digite a sua escolha: "))
 
+                cls()
+                
                 if choice_filter == 0:
                     filter_position = int(input("\nFiltre por posição: "))
                     if filter_position > len(products) or filter_position < 0:
                         print("\n\n########### ERRO ###########")
-                        print("     Posição inexistente     ")
+                        print("#    Posição inexistente    #")
                         print("############################\n\n")
                     else:
                         print("\n########### FILTRO - Posição: ", filter_position, " ###########\n")
@@ -79,11 +88,13 @@ while choice_option != 5:
                 
 
     elif choice_option == 2:
-        print("\n\n########### CADASTRO DE UM NOVO PRODUTO ###########\n")
-        product_name = input("Digite o nome do produto: ")
-        product_price = input("Digite o preço do produto: ") 
-        product_quantity = input("Digite a quantidade de estoque do produto: ")
-        product_description = input("Digite a descrição do produto: ")
+        cls()
+        print("\n\n######### CADASTRO DE UM NOVO PRODUTO #########")
+        print("#                                             #")
+        product_name = input("# Digite o nome do produto:")
+        product_price = input("# Digite o preço do produto: ") 
+        product_quantity = input("# Digite a quantidade de estoque do produto: ")
+        product_description = input("# Digite a descrição do produto: ")
 
         products.append(product.Product(name = product_name, price = product_price, quantity = product_quantity, description = product_description))
         print("\nCadastro concluído com sucesso!")
@@ -91,6 +102,7 @@ while choice_option != 5:
         if len(products) == 0:
             print("\n\nNão há produtos cadastrados ainda!")
         else:
+            cls()
             print("\n\n########### ALTERAÇÃO DE PRODUTO ###########\n")
             product_position = int(input("Digite a posição do produto que deseja alterar: "))
             if product_position > len(products) or product_position < 0:
@@ -115,6 +127,7 @@ while choice_option != 5:
         if len(products) == 0:
             print("\n\nNão há produtos cadastrados ainda!")
         else:
+            cls()
             print("\n\n########### EXCLUSÃO DE PRODUTO ###########\n")
             product_position = int(input("Digite a posição do produto que deseja excluir: "))
 
