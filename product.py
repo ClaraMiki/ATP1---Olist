@@ -22,3 +22,9 @@ class Product():
         self.__quantity = value
     def set_description(self, value) -> None:
         self.__description = value
+    
+    def show_all(self) -> None:
+        print("Nome: ", self.__name)
+        print("Preço: ", self.__price)
+        print("Quantidade: ", self.__quantity)
+        print("Descrição: ", self.__description, "\n")

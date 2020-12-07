@@ -17,13 +17,10 @@ while choice_option != 5:
     elif choice_option == 5:
         break
     elif choice_option == 1:
-        print("\n\n########### LISTAGEM DE PRODUTOS ###########")
+        print("\n\n########### LISTAGEM DE PRODUTOS ###########\n\n")
         for product in products:
-            print("Nome: ", product.get_name())
-            print("Preço: ", product.get_price())
-            print("Quantidade: ", product.get_quantity())
-            print("Descrição: ", product.get_description())
-            print("\n------------------------------------\n")
+            product.show_all()
+            print("------------------------------------\n")
 
     elif choice_option == 2:
         print("\n\n########### CADASTRO DE UM NOVO PRODUTO ###########")
@@ -37,11 +34,23 @@ while choice_option != 5:
     elif choice_option == 3:
         print("\n\n########### ALTERAÇÃO DE PRODUTO ###########")
         product_position = int(input("Digite a posição do produto que deseja alterar: "))
+        products[product_position].show_all()
+        name = input("Digite o novo nome: ")
+        price = input("Digite o novo preço: ")
+        quantity = input("Digite a nova quantidade: ")
+        description = input("Digite a nova descrição: ")
+
+        products[product_position].set_name(name)
+        products[product_position].set_price(price)
+        products[product_position].set_quantity(quantity)
+        products[product_position].set_description(description)
+
+        print("\n\nAlteração feita com sucesso!\n\n")
     elif choice_option == 4:
         print("\n\n########### EXCLUSÃO DE PRODUTO ###########")
         product_position = int(input("Digite a posição do produto que deseja excluir: "))
-        #if product_position > products.length:
-        #   print("Posição inexistente")
-        #else:
-        #   products.index(product_position)
-        #comentado para nao dar erro
+        if product_position > len(products):
+            print("Posição inexistente")
+        else:
+            products.pop(product_position)
+            print("Excluído com sucesso!")
