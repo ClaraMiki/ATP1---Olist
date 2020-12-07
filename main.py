@@ -17,10 +17,13 @@ while choice_option != 5:
     elif choice_option == 5:
         break
     elif choice_option == 1:
-        print("\n\n########### LISTAGEM DE PRODUTOS ###########\n\n")
-        for product in products:
-            product.show_all()
-            print("------------------------------------\n")
+        if len(products) == 0:
+           print("\n\nNão há produtos cadastrados ainda!")
+        else:
+            print("\n\n########### LISTAGEM DE PRODUTOS ###########\n\n")
+            for product in products:
+                product.show_all()
+                print("------------------------------------\n")
 
     elif choice_option == 2:
         print("\n\n########### CADASTRO DE UM NOVO PRODUTO ###########")
@@ -32,25 +35,35 @@ while choice_option != 5:
         products.append(product.Product(name = product_name, price = product_price, quantity = product_quantity, description = product_description))
         print("\nCadastro concluído com sucesso!")
     elif choice_option == 3:
-        print("\n\n########### ALTERAÇÃO DE PRODUTO ###########")
-        product_position = int(input("Digite a posição do produto que deseja alterar: "))
-        products[product_position].show_all()
-        name = input("Digite o novo nome: ")
-        price = input("Digite o novo preço: ")
-        quantity = input("Digite a nova quantidade: ")
-        description = input("Digite a nova descrição: ")
-
-        products[product_position].set_name(name)
-        products[product_position].set_price(price)
-        products[product_position].set_quantity(quantity)
-        products[product_position].set_description(description)
-
-        print("\n\nAlteração feita com sucesso!\n\n")
-    elif choice_option == 4:
-        print("\n\n########### EXCLUSÃO DE PRODUTO ###########")
-        product_position = int(input("Digite a posição do produto que deseja excluir: "))
-        if product_position > len(products):
-            print("Posição inexistente")
+        if len(products) == 0:
+            print("\n\nNão há produtos cadastrados ainda!")
         else:
-            products.pop(product_position)
-            print("Excluído com sucesso!")
+            print("\n\n########### ALTERAÇÃO DE PRODUTO ###########")
+            product_position = int(input("Digite a posição do produto que deseja alterar: "))
+            products[product_position].show_all()
+
+            name = input("Digite o novo nome: ")
+            price = input("Digite o novo preço: ")
+            quantity = input("Digite a nova quantidade: ")
+            description = input("Digite a nova descrição: ")
+
+            products[product_position].set_name(name)
+            products[product_position].set_price(price)
+            products[product_position].set_quantity(quantity)
+            products[product_position].set_description(description)
+
+            print("\n\nAlteração feita com sucesso!\n\n")
+    elif choice_option == 4:
+        if len(products) == 0:
+            print("\n\nNão há produtos cadastrados ainda!")
+        else:
+            print("\n\n########### EXCLUSÃO DE PRODUTO ###########")
+            product_position = int(input("Digite a posição do produto que deseja excluir: "))
+
+            if product_position > len(products):
+                print("\n\n########### ERRO ###########")
+                print("     Posição inexistente     ")
+                print("############################\n\n")
+            else:
+                products.pop(product_position)
+                print("Excluído com sucesso!\n")
