@@ -268,12 +268,32 @@ while choice_option != 8:
                         if len(description) < 20:
                             print("A descrição precisa ter ao menos 20 caracteres!\n")
                         else:
-                            products[product_position].set_name(name)
-                            products[product_position].set_price(price)
-                            products[product_position].set_quantity(quantity)
-                            products[product_position].set_description(description)
+                            product_weight = float(input("Digite o novo peso em KG: "))
+                            if product_weight <= 0:
+                                print("\nDigite um peso válido, por favor!\n")
+                            else:
+                                product_heigth = float(input("Digite a nova altura em metros: "))
+                                if product_heigth <= 0:
+                                    print("\nDigite uma altura válida, por favor!\n")
+                                else:
+                                    product_width = float(input("# Digite a nova largura em metros: "))
+                                    if product_width <= 0:
+                                        print("\nDigite uma largura válida, por favor!\n")
+                                    else:
+                                        product_depth = float(input("# Digite a nova profundidade em metros: "))
+                                        if product_depth <= 0:
+                                            print("\nDigite uma profundidade válida, por favor!\n")
+                                        else:
+                                            products[product_position].set_name(name)
+                                            products[product_position].set_price(price)
+                                            products[product_position].set_quantity(quantity)
+                                            products[product_position].set_description(description)
+                                            products[product_position].set_weight(product_weight)
+                                            products[product_position].set_height(product_heigth)
+                                            products[product_position].set_width(product_width)
+                                            products[product_position].set_depth(product_depth)
 
-                            print("\n\nAlteração feita com sucesso!\n\n")
+                                            print("\n\nAlteração feita com sucesso!\n\n")
     elif choice_option == 7:
         if len(products) == 0:
             print("\n\nNão há produtos cadastrados ainda!")
