@@ -7,12 +7,30 @@ choice_option = 1
 products = []
 categories = []
 
-def get_index_category_by_id(value):
+def show_main_categories():
+    for category in categories:
+        if category.get_category_type() == "main":
+            print(category.show_all())
+
+def show_sub_categories():
+    for category in categories:
+        if category.get_category_type() == "sub":
+            print(category.show_all())
+
+
+def category_exists(value):
     for position in range(len(categories)):
-        print(position)
         if categories[position].get_identifier() == value:
-            return position
+            return 1
         position += 1
+    return 0
+
+def get_index_category_by_id(value):
+    categories_list = separate_comma_blankspace(value)
+    for pos in range(len(categories_list)):
+        for position in range(len(categories)):
+            if categories[position].get_identifier() == categories_list[pos] and categories[position].get_category_type() == "main":
+                return position
     return -1
 
 def separate_comma_blankspace(value):
@@ -46,9 +64,7 @@ while choice_option != 8:
            print("\n\nNão há categorias cadastradas ainda!")
         else:
             print("\n\n########## LISTAGEM DE CATEGORIAS #########\n")
-            for category in categories:
-                category.show_all()
-                print("-----------------------------------------\n")
+            show_main_categories()
     elif choice_option == 1:
         cls()
         print("\n\n######### CADASTRO DE UMA NOVA CATEGORIA #########")
@@ -64,21 +80,27 @@ while choice_option != 8:
             category_type = "main"
 
         categories.append(classes.Category(identifier = category_id, description = category_desc, category_type = category_type))
-        if if_sub == 1:
-            category_parent = input("Qual categoria pai ela está vinculada? ")
-            categories_size = len(categories) - 1
-            categories[categories_size].set_sub_category(category_parent)
         print("\nCadastro concluído com sucesso!")
+        if if_sub == 1:
+            category_parent = input("\nQual categoria pai ela está vinculada? ")
+            if category_exists(category_parent) == 1:
+                position = get_index_category_by_id(category_parent)
+                categories[position].set_sub_category(category_id)
+                print("\nCadastro de sub categoria concluído com sucesso!")
+            else:
+                categories_size = len(categories) - 1
+                categories[categories_size].set_category_type("main")
+                print("\nCategoria inexistente!\n")
 
     elif choice_option == 2:
         cls()
         if len(categories) == 0:
-           print("\n\nNão há categorias cadastradas ainda!")
+           print("\n\nNão há sub categorias cadastradas ainda!")
         else:
             print("\n\n########## LISTAGEM DE SUB CATEGORIAS #########\n")
-            for category in categories:
-                print("- ", category.get_sub_category())
+            show_sub_categories()
     elif choice_option == 4:
+        cls()
         if len(products) == 0:
            print("\n\nNão há produtos cadastrados ainda!")
         else:
@@ -150,48 +172,74 @@ while choice_option != 8:
         print("\n\n######### CADASTRO DE UM NOVO PRODUTO #########")
         print("#                                             #")
         product_name = input("# Digite o nome do produto: ")
-        product_price = input("# Digite o preço do produto: ") 
-        product_quantity = input("# Digite a quantidade de estoque do produto: ")
-        product_description = input("# Digite a descrição do produto: ")
-        if len(product_description) < 20:
-            print("\nDescrição mínima de 20 caracteres!\n")
+        product_price = float(input("# Digite o preço do produto: "))
+        if product_price <= 0:
+            print("\nDigite um preço válido, por favor!\n")
         else:
-            products.append(classes.Product(name = product_name, price = product_price, quantity = product_quantity, description = product_description))
-            print("\nCadastro concluído com sucesso!")
-            cls()
-            print("# 1 - Sim")
-            print("# 2 - Não")
-            register_category = int(input("\n# Deseja cadastrar uma categoria ao produto? "))
-            if register_category == 1:
-                if len(categories) == 0:
-                    print("\nNão há categorias cadastradas ainda!\n")
+            product_quantity = int(input("# Digite a quantidade de estoque do produto: "))
+            if product_quantity <= 0:
+                print("\nDigite uma quantidade válida, por favor!\n")
+            else:
+                product_description = input("# Digite a descrição do produto: ")
+                if len(product_description) < 20 or product_description.strip() == "":
+                    print("\nDescrição mínima de 20 caracteres!\n")
                 else:
-                    print("\n\n######### LISTAGEM DAS CATEGORIAS #########\n")
-                    for category in categories:
-                        print("Identificador: ", category.get_identifier())
-                        print("Descrição: ", category.get_description())
-                        print("\n---------------------------------------\n")
-                    category_choosen = input("Escolha as categoria pelo seu identificador, separadas por virgulas: ")
-                    separate_comma_blankspace(category_choosen)
-                    product_size = len(products) - 1
-                    products[product_size].set_category(category_choosen)
-                    print("\nCadastro concluído com sucesso!")
-
-                    cls()
-                    print("# 1 - Sim")
-                    print("# 2 - Não")
-                    register_sub_category = int(input("\n# Deseja cadastrar uma sub categoria ao produto? "))
-                    if register_sub_category == 1:
-                        index_category = get_index_category_by_id(category_choosen)
-                        if index_category != -1:
-                            sub_categories = categories[index_category].get_sub_category()
-                            print("\n\n######### LISTAGEM DAS SUB CATEGORIAS #########\n")
-                            for sub in sub_categories:
-                                print("# ", sub)
+                    product_weight = float(input("# Digite o peso em KG do produto: "))
+                    if product_weight <= 0:
+                        print("\nDigite um peso válido, por favor!\n")
+                    else:
+                        product_heigth = float(input("# Digite a altura em metros do produto: "))
+                        if product_heigth <= 0:
+                            print("\nDigite uma altura válida, por favor!\n")
                         else:
-                            print("\n\n#################### ERRO ########################")
-                            print("   O sistema não conseguiu identificar a categoria    ")
-                            print("##################################################\n\n")
+                            product_width = float(input("# Digite a largura em metros do produto: "))
+                            if product_width <= 0:
+                                print("\nDigite uma largura válida, por favor!\n")
+                            else:
+                                product_depth = float(input("# Digite a profundidade em metros do produto: "))
+                                if product_depth <= 0:
+                                    print("\nDigite uma profundidade válida, por favor!\n")
+                                else:
+                                    products.append(classes.Product(name = product_name, price = product_price, quantity = product_quantity, description = product_description, weight = product_weight, height = product_heigth, width = product_width, depth = product_depth))
+                                    print("\nCadastro concluído com sucesso!")
+                                    cls()
+                                    print("# 1 - Sim")
+                                    print("# 2 - Não")
+                                    register_category = int(input("\n# Deseja cadastrar uma categoria ao produto? "))
+                                    if register_category == 1:
+                                        if len(categories) == 0:
+                                            print("\nNão há categorias cadastradas ainda!\n")
+                                        else:
+                                            print("\n\n######### LISTAGEM DAS CATEGORIAS #########\n")
+                                            show_main_categories()
+                                            category_choosen = input("Escolha as categoria pelo seu identificador, separadas por virgulas: ")
+                                            separate_comma_blankspace(category_choosen)
+                                            product_size = len(products) - 1
+                                            products[product_size].set_category(category_choosen)
+                                            print("\nCadastro concluído com sucesso!")
+
+                                            cls()
+                                            print("# 1 - Sim")
+                                            print("# 2 - Não")
+                                            register_sub_category = int(input("\n# Deseja cadastrar uma sub categoria ao produto? "))
+                                            if register_sub_category == 1:
+                                                index_category = get_index_category_by_id(category_choosen)
+                                                if index_category != -1:
+                                                    sub_categories = categories[index_category].get_sub_category()
+                                                    print("sub_categories: ", sub_categories)
+                                                    if sub_categories != []:
+                                                        print("\n\n######### LISTAGEM DAS SUB CATEGORIAS #########\n")
+                                                        for sub in sub_categories:
+                                                            print("# ", sub)
+                                                        sub_category_choosen = input("Escolha a sub categoria: ")
+                                                        products[product_size].set_sub_category(sub_category_choosen)
+                                                        print("\nSub categoria cadastrada com sucesso!")
+                                                    else:
+                                                        print("\nNão há sub categorias vinculadas a esta categoria!\n")
+                                                else:
+                                                    print("\n\n#################### ERRO ########################")
+                                                    print("   O sistema não conseguiu identificar a categoria    ")
+                                                    print("##################################################\n\n")
 
     elif choice_option == 6:
         if len(products) == 0:
@@ -209,15 +257,23 @@ while choice_option != 8:
 
                 name = input("Digite o novo nome: ")
                 price = input("Digite o novo preço: ")
-                quantity = input("Digite a nova quantidade: ")
-                description = input("Digite a nova descrição: ")
+                if price <= 0:
+                    print("\nPor favor, digite um preço válido!\n")
+                else:
+                    quantity = input("Digite a nova quantidade: ")
+                    if quantity <= 0:
+                        print("\nPor favor, digite uma quantidade válida!\n")
+                    else:
+                        description = input("Digite a nova descrição: ")
+                        if len(description) < 20:
+                            print("A descrição precisa ter ao menos 20 caracteres!\n")
+                        else:
+                            products[product_position].set_name(name)
+                            products[product_position].set_price(price)
+                            products[product_position].set_quantity(quantity)
+                            products[product_position].set_description(description)
 
-                products[product_position].set_name(name)
-                products[product_position].set_price(price)
-                products[product_position].set_quantity(quantity)
-                products[product_position].set_description(description)
-
-                print("\n\nAlteração feita com sucesso!\n\n")
+                            print("\n\nAlteração feita com sucesso!\n\n")
     elif choice_option == 7:
         if len(products) == 0:
             print("\n\nNão há produtos cadastrados ainda!")
